@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffa Customs | GU Patrol Accessories</title>
+    <style>
+        :root { --primary: #d32f2f; --dark: #111; --light: #f4f4f4; --white: #ffffff; --green: #2e7d32; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--light); color: var(--dark); line-height: 1.6; }
+        
+        header { background: #111; color: white; padding: 5rem 1rem; text-align: center; border-bottom: 4px solid var(--primary); }
+        .brand-logo { font-weight: 900; font-size: 3.5rem; text-transform: uppercase; letter-spacing: -2px; color: white; line-height: 1; display: inline-block; position: relative; }
+        .brand-logo::after { content: 'TC'; position: absolute; top: -10px; right: -35px; font-size: 1rem; background: var(--primary); padding: 4px 8px; border-radius: 4px; letter-spacing: 1px; }
+        .brand-accent { color: var(--primary); }
+        .header-subtitle { font-size: 1rem; color: rgba(255,255,255,0.6); margin-top: 15px; letter-spacing: 4px; text-transform: uppercase; }
+
+        .container { max-width: 1100px; margin: auto; padding: 2rem; }
+        .product-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: var(--white); padding: 2.5rem; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); margin-top: -4rem; }
+        .product-image img { width: 100%; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; }
+        .stock-badge { background: #f1f8e9; color: var(--green); padding: 12px; border-radius: 8px; border-left: 5px solid var(--green); margin-bottom: 20px; font-weight: bold; }
+
+        /* COLOR PICKER STYLES */
+        .color-selector { margin: 20px 0; }
+        .color-options { display: flex; gap: 10px; margin-top: 10px; }
+        .color-dot { 
+            width: 35px; height: 35px; border-radius: 50%; cursor: pointer; 
+            border: 3px solid transparent; transition: 0.2s; 
+        }
+        .color-dot.active { border-color: var(--primary); transform: scale(1.1); }
+        .black { background: #1a1a1a; }
+        .grey { background: #555555; }
+        .tan { background: #c2b280; }
+
+        .basket-box { background: #f9f9f9; padding: 1.5rem; border-radius: 10px; border: 1px solid #ddd; margin-top: 1.5rem; }
+        .qty-input { width: 70px; padding: 10px; font-size: 1.1rem; border-radius: 5px; border: 1px solid #ccc; margin-left: 10px; }
+        .total-row { display: flex; justify-content: space-between; margin: 12px 0; font-weight: 500; }
+        .savings { color: var(--green); font-weight: bold; }
+        
+        .buy-btn { display: block; background: var(--primary); color: white; padding: 1.2rem; text-decoration: none; border-radius: 6px; font-weight: bold; text-align: center; margin-top: 20px; font-size: 1.2rem; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
+        .gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; }
+
+        .info-card { background: white; padding: 2.5rem; border-radius: 15px; margin-top: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        footer { background: #111; color: white; padding: 4rem 1rem; margin-top: 4rem; text-align: center; }
+
+        @media (max-width: 768px) { .product-section { grid-template-columns: 1fr; margin-top: 0; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-logo">TRAFFA<span class="brand-accent"> CUSTOMS</span></div>
+    <div class="header-subtitle">Heavy-Duty 4x4 Interior Solutions</div>
+</header>
+
+<div class="container">
+    <div class="product-section">
+        <div class="product-image">
+            <img src="product1.jpg" id="mainImage" alt="GU Patrol Cupholder">
+            <div class="gallery">
+                <img src="product1.jpg" onclick="document.getElementById('mainImage').src='product1.jpg'">
+                <img src="product2.jpg" onclick="document.getElementById('mainImage').src='product2.jpg'">
+                <img src="product3.jpg" onclick="document.getElementById('mainImage').src='product3.jpg'">
+                <img src="product4.jpg" onclick="document.getElementById('mainImage').src='product4.jpg'">
+                <img src="product5.jpg" onclick="document.getElementById('mainImage').src='product5.jpg'">
+            </div>
+        </div>
+
+        <div class="product-info">
+            <div class="stock-badge">📦 IN STOCK: 5 units ready to ship right now!</div>
+            <h2>GU Patrol Center Console Cupholder</h2>
+            
+            <div class="color-selector">
+                <strong>Select Color: <span id="colorName">Stealth Black</span></strong>
+                <div class="color-options">
+                    <div class="color-dot black active" onclick="selectColor('Stealth Black', this)"></div>
+                    <div class="color-dot grey" onclick="selectColor('Gunmetal Grey', this)"></div>
+                    <div class="color-dot tan" onclick="selectColor('Desert Tan', this)"></div>
+                </div>
+            </div>
+
+            <div class="basket-box">
+                <div><strong>Quantity:</strong> <input type="number" id="qty" class="qty-input" value="1" min="1" oninput="calculateTotal()"></div>
+                <div class="total-row"><span>Unit Price:</span><span>$60.00</span></div>
+                <div class="total-row savings" id="savings-row" style="display:none;"><span>Bulk Discount (10%):</span><span id="discount-amount">-$0.00</span></div>
+                <div class="total-row"><span>Shipping:</span><span id="shipping-text">$12.00</span></div>
+                <div class="total-row" style="font-size: 1.8rem; border-top: 2px solid #333; padding-top: 15px; margin-top: 10px;">
+                    <span>Total:</span><span id="final-total" style="color:var(--primary)">$72.00</span>
+                </div>
+            </div>
+
+            <a href="#" id="whatsapp-link" class="buy-btn">ORDER VIA WHATSAPP</a>
+        </div>
+    </div>
+
+    <div class="info-card">
+        <h3>About Traffa Customs</h3>
+        <p>Hand-finished in Melbourne using industrial-grade <strong>ASA/PETG</strong>. Our units are UV-stable and heat-resistant up to 100°C—perfect for the Aussie sun.</p>
+    </div>
+</div>
+
+<footer>
+    <p><strong>TRAFFA CUSTOMS</strong> | 0492 932 115</p>
+</footer>
+
+<script>
+    let selectedColor = "Stealth Black";
+
+    function selectColor(name, element) {
+        selectedColor = name;
+        document.getElementById('colorName').innerText = name;
+        
+        // Update visual dots
+        document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
+        element.classList.add('active');
+        
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        const qty = parseInt(document.getElementById('qty').value) || 1;
+        const subtotal = qty * 60;
+        let discount = qty >= 2 ? subtotal * 0.10 : 0;
+        let totalVal = subtotal - discount;
+        let shipping = totalVal >= 250 ? 0 : 12;
+        let finalTotal = totalVal + shipping;
+
+        document.getElementById('savings-row').style.display = qty >= 2 ? 'flex' : 'none';
+        document.getElementById('discount-amount').innerText = "-$" + discount.toFixed(2);
+        document.getElementById('shipping-text').innerText = shipping === 0 ? "FREE" : "$12.00";
+        document.getElementById('shipping-text').style.color = shipping === 0 ? "green" : "black";
+        document.getElementById('final-total').innerText = "$" + finalTotal.toFixed(2);
+
+        // Update WhatsApp Link with Color Selection
+        const message = `Hey Traffa! I'd like to order ${qty} GU Cupholder(s) in ${selectedColor}.\nTotal: $${finalTotal.toFixed(2)}.`;
+        document.getElementById('whatsapp-link').href = `https://wa.me/61492932115?text=${encodeURIComponent(message)}`;
+    }
+    calculateTotal();
+</script>
+
+</body>
+</html>
